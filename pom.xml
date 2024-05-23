@@ -13,8 +13,8 @@
     <packaging>hpi</packaging>
     <properties>
         <!-- Baseline Jenkins version you use to build the plugin. Users must have this version or newer to run. -->
+        <!-- when updating this update the bom artifactId to match -->
         <jenkins.version>2.426.3</jenkins.version>
-<!--        <enforcer.skip>true</enforcer.skip>-->
         <oci-java-sdk.version>3.9.1</oci-java-sdk.version>
     </properties>
     <name>Oracle Cloud Infrastructure DevOps Plugin</name>
@@ -40,15 +40,9 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson</groupId>
-                <artifactId>jackson-bom</artifactId>
-                <version>2.17.0</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
@@ -75,6 +69,16 @@
                 <exclusion>
                     <groupId>com.google.guava</groupId>
                     <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- from the bouncycastle-api plugin -->
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- from the jackson2-api plugin -->
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -111,23 +115,22 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>bouncycastle-api</artifactId>
-            <version>2.20</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>trilead-api</artifactId>
-            <version>2.142.v748523a_76693</version>
         </dependency>
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>jackson2-api</artifactId>
-            <version>2.17.0-379.v02de8ec9f64c</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
+            <!-- used for compililation only via APT not needed at runtime do not bundle -->
+            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.github.resilience4j</groupId>
