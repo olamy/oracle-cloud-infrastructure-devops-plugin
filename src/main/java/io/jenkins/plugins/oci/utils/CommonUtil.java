@@ -26,7 +26,6 @@ import io.jenkins.plugins.oci.deployment.ExecutionMode;
 import java.util.Locale;
 import jenkins.model.Jenkins;
 import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.QueryParameter;
 
@@ -36,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -146,25 +146,33 @@ public final class CommonUtil {
         if (parts.length < MAX_PARTS) {
             throw new IllegalArgumentException("OCID has too few parts");
         }
-        if (StringUtils.isBlank(parts[0])) {
+
+        Objects.requireNonNull(parts[0]);
+        if (parts[0].isBlank()) {
             throw new IllegalArgumentException("OCID has missing version");
         }
         if (!"ocidv1".equals(parts[0].toLowerCase(Locale.ENGLISH)) && !"ocid1".equals(parts[0].toLowerCase(Locale.ENGLISH))) {
             throw new IllegalArgumentException("OCID has invalid version");
         }
-        if (StringUtils.isBlank(parts[1])) {
+
+        Objects.requireNonNull(parts[1]);
+        if (parts[1].isBlank()) {
             throw new IllegalArgumentException("OCID has missing entity type");
         }
         if (!Pattern.matches(OCID_COMMON_PARTS_PATTERN, parts[1].toLowerCase(Locale.ENGLISH)) || parts[1].length() > ENTITY_TYPE_MAX_LENGTH) {
             throw new IllegalArgumentException("OCID has invalid entity type");
         }
-        if (StringUtils.isBlank(parts[2])) {
+
+        Objects.requireNonNull(parts[2]);
+        if (parts[2].isBlank()) {
             throw new IllegalArgumentException("OCID has missing realm");
         }
         if (!Pattern.matches(OCID_COMMON_PARTS_PATTERN, parts[2].toLowerCase(Locale.ENGLISH)) || parts[2].length() > REALM_MAX_LENGTH) {
             throw new IllegalArgumentException("OCID has invalid realm");
         }
-        if (StringUtils.isNotBlank(parts[3]) && (!Pattern.matches(OCID_COMMON_PARTS_PATTERN, parts[3].toLowerCase(Locale.ENGLISH))
+
+        Objects.requireNonNull(parts[3]);
+        if (!parts[3].isBlank() && (!Pattern.matches(OCID_COMMON_PARTS_PATTERN, parts[3].toLowerCase(Locale.ENGLISH))
                 || parts[3].length() > REGION_MAX_LENGTH)) {
             throw new IllegalArgumentException("OCID has invalid region");
         }
