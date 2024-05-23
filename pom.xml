@@ -15,7 +15,6 @@
         <!-- Baseline Jenkins version you use to build the plugin. Users must have this version or newer to run. -->
         <!-- when updating this update the bom artifactId to match -->
         <jenkins.version>2.426.3</jenkins.version>
-<!--        <enforcer.skip>true</enforcer.skip>-->
         <oci-java-sdk.version>3.9.1</oci-java-sdk.version>
     </properties>
     <name>Oracle Cloud Infrastructure DevOps Plugin</name>
